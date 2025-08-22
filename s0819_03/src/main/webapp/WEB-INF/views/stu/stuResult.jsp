@@ -1,0 +1,53 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>학생 성적 확인</title>
+		<style>
+		  h2{text-align: center;}
+		  table{width:400px; margin:10px auto;}
+		  table,th,td{border:1px solid black; border-collapse: collapse;}
+		  th,td{width:200px; height:40px; text-align: center; }
+		</style>
+	</head>
+	<body>
+	<h2>입력결과</h2>
+	<table>
+		<tr>
+			<th>번호</th>
+			<td>${stu.sno}</td>
+		</tr>
+		<tr>
+			<th>이름</th>
+			<td>${stu.name}</td>
+		</tr>
+		<tr>
+			<th>국어</th>
+			<td>${stu.kor}</td>
+		</tr>
+		<tr>
+			<th>영어</th>
+			<td>${stu.eng}</td>
+		</tr>
+		<tr>
+			<th>수학</th>
+			<td>${stu.math}</td>
+		</tr>
+		<tr>
+		<tr>
+			<th>합계</th>
+			<td>${stu.total}</td>
+		</tr>
+		<tr>
+			<th>평균</th>
+			<td>${stu.avg}</td>
+		</tr>
+		<tr>
+			<th colspan="2"><a href="/">메인</a></th>
+		</tr>
+	</table>
+	</body>
+</html>

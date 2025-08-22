@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.site.dao.BoardMapper">
+<!-- 겟글 목록 -->
+<!-- 셀렉트는 리절트타입 존재 (받아올 것이 있어서) -->
+<select id="findAll" resultType="com.site.dto.Board">
+	select * from board order by bgroup desc, bindent asc
+</select>
+
+<!-- 게시글 작성 -->
+<insert id="save">
+	insert into board values(
+		board_seq.nextval, #{btitle}, #{bcontent}, #{id},
+		board_seq.currval,0,0,0,#{bfile},sysdate
+	)
+</insert> 
+<!-- 게시글 작성 -->
+<select id="findByBno" resultType="com.site.dto.Board">
+	select * from board where bno=#{bno}
+</select>
+
+<!-- 게시글 삭제 -->
+<delete id="delete">
+	delete board where bno=#{bno}
+</delete>
+</mapper>
