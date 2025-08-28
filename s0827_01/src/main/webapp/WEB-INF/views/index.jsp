@@ -33,7 +33,7 @@
 	 				</c:if>
 	 				<li>고객행복센터</li>
 	 				<li>배송정보검색</li>
-	 				<li>기프트카드 등록</li>
+	 				<li><a href="/member/list">회원정보리스트</a></li>
 	 			</ul>
 	 		</div>
 	 		<nav>

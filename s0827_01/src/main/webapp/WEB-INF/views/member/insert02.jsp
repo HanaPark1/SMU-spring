@@ -52,7 +52,7 @@
 		
 		
 		<section>
-			<form action="/member/insert03" name="agree" method="post" >
+			<form action="/member/insert02" name="agree" method="post" >
 				<div id="subBanner"></div>
 				<div id="locationN">
 					<ul>
@@ -103,10 +103,11 @@
 							<label for="id">아이디</label>
 						</dt>
 						<dd>
-							<input type="text" id="id" name="id" minlength="4" maxlength="16" required/>
+							<input type="text" id="id" name="id" minlength="3" maxlength="16" required/>
 							<input type="button" onclick="idBtn()" value="중복확인"/>
 							<span>4~16자리의 영문, 숫자, 특수기호(_)만 사용하실 수 있습니다.</span>
 							<span>첫 글자는 영문으로 입력해 주세요.</span>
+							<span id="idBtnText"></span>
 						</dd>
 						<script>
 						   function idBtn(){
@@ -122,12 +123,14 @@
 								  url:"/member/idBtn",
 								  method:"post",
 								  data:{"id":id},
-								  dataType:"json",
+								  dataType:"text",
 								  success:function(data){
 									  if(data == "1"){
-										  alert(id+" : 아이디 사용가능");
+										  $("#idBtnText").css({"color": "blue","font-weight":"bold"});
+										  $("#idBtnText").text("아이디 사용 가능!");
 									  }else{
-										  alert(id+" : 아이디 사용불가");
+										  $("#idBtnText").css({"color": "red","font-weight":"bold"});
+										  $("#idBtnText").text("아이디 사용 불가!");
 									  }
 									  console.log(data);
 								  },
@@ -145,7 +148,7 @@
 							<label for="pw1">비밀번호</label>
 						</dt>
 						<dd>
-							<input type="password" id="pw1" name="pw1" minlength="8" required />
+							<input type="password" id="pw1" name="pw" minlength="3" required />
 							<span>영문, 숫자, 특수문자 중 2종류 조합 시 10자리 이상 입력</span>
 							<span>영문, 숫자, 특수문자 모두 조합 시 8자리 이상 입력</span>
 						</dd>
@@ -156,19 +159,30 @@
 							<label for="pw2">비밀번호 확인</label>
 						</dt>
 						<dd>
-							<input type="password" id="pw2" name="pw2" minlength="8" required />
-							<span>비밀번호를 다시 한번 입력해 주세요.</span>
+							<input type="password" onkeyup="pwCheck()" id="pw2" name="pw2" minlength="3" required />
+							<span id="pwCheckText">비밀번호를 다시 한번 입력해 주세요.</span>
 						</dd>
 					</dl>
+					<script>
+						function pwCheck() {
+							if($("#pw1").val() == $("#pw2").val()) {
+								$("#pwCheckText").css({"color": "blue","font-weight":"bold"});
+								$("#pwCheckText").text("비밀번호가 동일합니다.");
+							} else {
+								$("#pwCheckText").css({"color": "red","font-weight":"bold"});
+								$("#pwCheckText").text("비밀번호가 다릅니다. 다시 입력해 주세요");
+							}
+						}
+					</script>
 					<dl id="join_mail_dl">
 						<dt>
 							<div></div>
 							<label for="mail_id">이메일</label>
 						</dt>
 						<dd>
-							<input type="text" id="mail_id" name="mail_id" required />
+							<input type="text" id="mail_id" name="email1" />
 							<span>@</span>
-							<input type="text" id="main_tail" name="mail_tail" required />
+							<input type="text" id="main_tail" name="email2" />
 							<select>
 								<option selected>직접입력</option>
 								<option>지메일</option>
@@ -190,12 +204,12 @@
 							<label for="">주소</label>
 						</dt>
 						<dd>
-							<input type="text" id="f_postal" name="f_postal" required />
+							<input type="text" id="f_postal" name="zipcode1" />
 							<span>-</span>
-							<input type="text" id="l_postal" name="l_postal" required />
+							<input type="text" id="l_postal" name="zipcode12" />
 							<input type="button" value="우편번호"/>
-							<input type="text" id="address1" name="address1" required />
-							<input type="text" id="address2" name="address2" required />
+							<input type="text" id="address1" name="address1" />
+							<input type="text" id="address2" name="address2" />
 						</dd>
 						
 					</dl>
@@ -206,11 +220,11 @@
 							<label for="f_tell">휴대전화</label>
 						</dt>
 						<dd>
-							<input type="text" id="f_tell" name="f_tell" maxlength="3" required />
+							<input type="text" id="f_tell" name="phone1" maxlength="3" required />
 							<span> - </span>
-							<input type="text" id="m_tell" name="m_tell" maxlength="4" required />
+							<input type="text" id="m_tell" name="phone2" maxlength="4" required />
 							<span> - </span>
-							<input type="text" id="l_tell" name="l_tell" maxlength="4" required />
+							<input type="text" id="l_tell" name="phone3" maxlength="4" required />
 						</dd>
 					</dl>
 					
@@ -221,9 +235,9 @@
 						</dt>
 						<dd>
 							<div>
-								<input type="radio" name="gender" id="male" value="male" checked="checked"/>
+								<input type="radio" name="gender" id="male" value="남자" checked="checked"/>
 								<label for="male">남성</label>
-								<input type="radio" name="gender" id="female" value="female" />
+								<input type="radio" name="gender" id="female" value="여자" />
 								<label for="female">여성</label>
 							</div>
 						</dd>
@@ -245,27 +259,27 @@
 						<dd>
 							<ul>
 								<li>
-									<input type="checkbox" name="game" id="game" value="게임" />
+									<input type="checkbox" name="hobby" id="game" value="게임" />
 									<label for="game">게임</label>
 								</li>
 								<li>
-									<input type="checkbox" name="golf" id="golf" value="골프" />
+									<input type="checkbox" name="hobby" id="golf" value="골프" />
 									<label for="golf">골프</label>
 								</li>
 								<li>
-									<input type="checkbox" name="swim" id="swim" value="수영" />
+									<input type="checkbox" name="hobby" id="swim" value="수영" />
 									<label for="swim">수영</label>
 								</li>
 								<li>
-									<input type="checkbox" name="run" id="run" value="조깅" />
+									<input type="checkbox" name="hobby" id="run" value="조깅" />
 									<label for="run">조깅</label>
 								</li>
 								<li>
-									<input type="checkbox" name="book" id="book" value="독서" />
+									<input type="checkbox" name="hobby" id="book" value="독서" />
 									<label for="book">독서</label>
 								</li>
 								<li>
-									<input type="checkbox" name="cook" id="cook" value="요리" />
+									<input type="checkbox" name="hobby" id="cook" value="요리" />
 									<label for="cook">요리</label>
 								</li>
 								

@@ -1,5 +1,7 @@
 package com.site.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +27,18 @@ public class MemberServiceImpl implements MemberService {
 				() -> {return new Member();}
 				);
 		return member;
+	}
+
+	@Override
+	public void save(Member m) {
+		memberRepository.save(m);
+		
+	}
+
+	@Override
+	public List<Member> findAll() {
+		List<Member> list = memberRepository.findAll();
+		return list;
 	}
 
 //	@Override // 임의로 이름변경

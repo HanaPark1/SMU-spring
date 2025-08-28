@@ -1,14 +1,18 @@
-{%load static%}
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>회원정보리스트</title>
   <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:400,500,700,900&display=swap&subset=korean" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
-  <link rel="stylesheet" href="{% static 'css/style.css'%}">
-  <link rel="stylesheet" href="{% static 'css/notice_list.css'%}">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/notice_list.css">
 </head>
 <body>
   <header>
@@ -65,65 +69,32 @@
 
     <table>
       <colgroup>
-        <col width="18%">
-        <col width="60%">
-        <col width="18%">
+        <col width="15%">
+        <col width="15%">
+        <col width="15%">
+        <col width="20%">
+        <col width="10%">
+        <col width="*">
       </colgroup>
       <tr>
-        <th>No.</th>
-        <th>제목</th>
-        <th>작성일</th>
+        <th>아이디</th>
+        <th>패스워드</th>
+        <th>이름</th>
+        <th>전화번호</th>
+        <th>성별</th>
+        <th>취미</th>
       </tr>
+      <c:forEach var="member" items="${list}">
       <tr>
-        <td><span class="table-notice">NOTICE</span></td>
-        <td class="table-title">신종코로나바이러스 예방관련 운영 안내</td>
-        <td>2020-02-28</td>
+        <td>${member.id}</td>
+        <td>${member.pw}</td>
+        <td class="table-title">${member.name}</td>
+        <td>${member.phone}</td>
+        <td>${member.gender}</td>
+        <td>${member.hobby}</td>
       </tr>
-      <tr>
-        <td><span class="table-notice">NOTICE</span></td>
-        <td class="table-title">[2020년3월] 시설 정비 공사 안내</td>
-        <td>2020-02-28</td>
-      </tr>
-      <tr>
-        <td><span class="table-notice">NOTICE</span></td>
-        <td class="table-title"><a href="/board/read/">[키즈잼] 2020년 이용 시간 & 이용 요금 변경 안내 </a></td>
-        <td>2019-12-11</td>
-      </tr>
-      <tr>
-        <td><span class="table-notice">NOTICE</span></td>
-        <td class="table-title">[키즈잼] 2020년 1분기 정기 휴관일 안내</td>
-        <td>2019-12-11</td>
-      </tr>
-      <tr>
-        <td><span class="table-notice">NOTICE</span></td>
-        <td class="table-title">홈페이지 개인정보 보안 강화</td>
-        <td>2018-11-14</td>
-      </tr>
-      <tr>
-        <td>5</td>
-        <td class="table-title">[키즈잼] 3월 프로그램 안내</td>
-        <td>2020-02-18</td>
-      </tr>
-      <tr>
-        <td>4</td>
-        <td class="table-title">[키즈잼] 2월 프로그램 안내</td>
-        <td>2020-01-17</td>
-      </tr>
-      <tr>
-        <td>3</td>
-        <td class="table-title">마이다스 멤버쉽 안내</td>
-        <td>2019-05-08</td>
-      </tr>
-      <tr>
-        <td>2</td>
-        <td class="table-title">[마이다스 호텔&리조트] 제23회 경기건축문화 금상 수상</td>
-        <td>2018-10-10</td>
-      </tr>
-      <tr>
-        <td>1</td>
-        <td class="table-title">카카오플러스 친구 오픈</td>
-        <td>2018-07-11</td>
-      </tr>
+      </c:forEach>
+      
     </table>
 
     <ul class="page-num">
