@@ -23,6 +23,8 @@ public interface MemberService {
 	// findAll 메소드
 	// 회원 전체 리스트
 	List<Member> findAll();
+
+	void delete(String id);
 	
 //	// 임의로 이름변경(로그인확인)
 //	Member findLogin(String id, String pw);

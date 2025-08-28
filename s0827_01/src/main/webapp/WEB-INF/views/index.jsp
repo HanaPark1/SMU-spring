@@ -28,7 +28,7 @@
 	 					<li><a href="/member/login">로그인</a></li>
 	 				</c:if>
 	 				<c:if test="${session_id != null }">
-	 					<li>${session_name}님</li>
+	 					<li><a href="/member/update?id=${session_id}">${session_name}님</a></li>
 	 					<li><a href="/member/logout">로그아웃</a></li>
 	 				</c:if>
 	 				<li>고객행복센터</li>

@@ -3,6 +3,7 @@ package com.site.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.site.dto.Member;
@@ -37,8 +38,19 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public List<Member> findAll() {
-		List<Member> list = memberRepository.findAll();
+		// 예외처리가 필요없음
+		// 정렬을 포함할 수 있음 - Sort;
+		Sort sort = Sort.by(
+				Sort.Order.desc("name")
+				);
+		List<Member> list = memberRepository.findAll(sort); // 역순정렬됨
 		return list;
+	}
+
+	@Override
+	public void delete(String id) {
+		Member member  = memberRepository.findById(id).get();
+		memberRepository.delete(member);
 	}
 
 //	@Override // 임의로 이름변경
