@@ -10,13 +10,17 @@
 		<title>Insert title here</title>
 		<link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:300,400,500,700,900&display=swap" rel="stylesheet">
 		<link rel="stylesheet" type="text/css" href="css/style_main.css">
+		<script>
+			if("${flag}" == "1") alert("로그인되었습니다. ");
+			if("${flag}" == "-1") alert("로그아웃되었습니다. ");
+		</script>
 	</head>
 	<body>
 	 	<header>
 	 		<div id="nav_up">
 	 			<ul>
 	 				<c:if test="${session_id == null }">
-	 					<li>회원가입</li>
+	 					<li><a href="/member/insert01">회원가입</a></li>
 	 					<li><a href="/member/login">로그인</a></li>
 	 				</c:if>
 	 				<c:if test="${session_id != null }">

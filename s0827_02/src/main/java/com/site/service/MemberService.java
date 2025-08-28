@@ -13,4 +13,6 @@ public interface MemberService {
 
 	Member findId(String id);
 
+	void save(Member m);
+
 }
