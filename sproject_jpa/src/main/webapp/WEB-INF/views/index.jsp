@@ -15,6 +15,7 @@
 <link rel="stylesheet" type="text/css" href="/css/reset.css?v=Y" />
 <link rel="stylesheet" type="text/css" href="/css/layout.css?v=Y" />
 <link rel="stylesheet" type="text/css" href="/css/content.css?v=Y" />
+<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript" src="/js/jquery.min.js"></script>
 <script type="text/javascript" src="/js/top_navi.js"></script>
 <script type="text/javascript" src="/js/main.js"></script>
@@ -27,6 +28,8 @@
 <script type="text/javascript" src="/js/respond.min.js"></script>
 <![endif]-->
 <script type="text/javascript">
+if ("${flag}" == "1") alert("로그인되었습니다.");
+if ("${flag}" == "-1") alert("로그아웃되었습니다.");
 $(document).ready(function() {
 	
 	var mySwiper = new Swiper('#mainRoll',{
@@ -168,8 +171,14 @@ $(document).ready(function() {
 			</div>
 			<div id="snb">
 				<ul>
-					<li><a href="/member/login">LOGIN</a></li>
-					<li><a href="/member/join">JOIN</a></li>
+					<c:if test="${session_id == null }">
+						<li><a href="/member/join">JOIN</a></li>
+						<li><a href="/member/login">LOGIN</a></li>
+					</c:if>
+					<c:if test="${session_id != null }">
+						<li><a href="/member/view">${session_name}님</a></li>
+						<li><a href="/member/logout">LOGOUT</a></li>
+					</c:if>
 					<li><a href="/member/mypage">MY PAGE</a></li>
 					<li><a href="#">CART</a></li>
 				</ul>

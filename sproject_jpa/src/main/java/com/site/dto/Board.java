@@ -26,7 +26,7 @@ import lombok.NoArgsConstructor;
 @Data // getter, setter
 public class Board {
 	@Id // 기본키 - oracle : sequence 사용
-	@GeneratedValue(strategy = GenerationType.IDENTITY) // DB제공되는 넘버링전략
+	@GeneratedValue(strategy = GenerationType.IDENTITY) // DB제공되는 넘버링전략 시퀀스 파일을 자동으로 만들어 줌
 	private int bno;
 	@Column(nullable = false, length=100)
 	private String btitle;
