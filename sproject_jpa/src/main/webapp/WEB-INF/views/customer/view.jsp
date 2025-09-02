@@ -28,8 +28,13 @@
 <script type="text/javascript" src="/js/respond.min.js"></script>
 <![endif]-->
 <script type="text/javascript">
-if("${flag}" == "-1") alert("게시글이 삭제 되었습니다.");
-if("${flag}" == "1") alert("게시글이 등록 되었습니다.");
+// 게시글 삭제
+	function deleteBtn() {
+		alert("게시글 번호: ${board.bno}");
+		if(confirm("${board.bno}번 게시글을 삭제하시겠습니까?")) {
+			location.href="/customer/delete?bno=${board.bno}";
+		}
+	}
 $(document).ready(function() {
 	
 
@@ -96,9 +101,7 @@ $(document).ready(function() {
 	<div id="header">
 		
 		<div id="snbBox">
-			<a href="/">
-				<h1><img src="/images/txt/logo.gif" alt="JARDIN SHOP" /></h1>
-			</a>
+			<h1><img src="/images/txt/logo.gif" alt="JARDIN SHOP" /></h1>
 			<div id="quickmenu">
 				<div id="mnaviOpen"><img src="/images/btn/btn_mnavi.gif" width="33" height="31" alt="메뉴열기" /></div>
 				<div id="mnaviClose"><img src="/images/btn/btn_mnavi_close.gif" width="44" height="43" alt="메뉴닫기" /></div>
@@ -218,84 +221,77 @@ $(document).ready(function() {
 			<div id="contents">
 				<div id="customer">
 					<h2><strong>NOTICE</strong><span>쟈뎅샵 소식을 전해드립니다.</span></h2>
-					
-					<div class="orderDivMt">
-						<table summary="NO, 제목, 등록일, 조회수 순으로 공지사항을 조회 하실수 있습니다." class="orderTable2" border="1" cellspacing="0">
-							<caption>공지사항 보기</caption>
+
+					<div class="viewDivMt">
+						<div class="viewHead">
+							<div class="subject">
+								<ul>
+									<li>쟈뎅 전문 쇼핑몰 쟈뎅샵이 리뉴얼 오픈합니다.</li>
+								</ul>
+							</div>
+							<div class="day">
+								<p class="txt">작성일<span>14.01.28</span></p>
+							</div>
+						</div>
+
+						<div class="viewContents">
+							안녕하세요. 쟈뎅샵입니다.<br/>
+							늘 저희 쟈뎅을 사랑해주시는 많은 고객님들께 감사 인사드립니다.<br/>
+							변함없는 고객님들의 사랑에 보답하고자, 쟈뎅이 온라인 쇼핑몰을 새롭게 리뉴얼 오픈하게 되었습니다.<br/>
+							기존에 tea24로 이용하시던 쟈뎅 제품 전문 쇼핑몰이 쟈뎅샵(jardinshop)이라는 새로운 공간으로<br/>
+							오픈하게 되었습니다.<br/>
+							더욱 새로운 모습과 늘 발전하는 모습으로 찾아뵙도록 하겠습니다.<br/><br/>
+
+							감사합니다.
+						</div>
+					</div>
+
+
+					<!-- 이전다음글 -->
+					<div class="pnDiv web">
+						<table summary="이전다음글을 선택하여 보실 수 있습니다." class="preNext" border="1" cellspacing="0">
+							<caption>이전다음글</caption>
 							<colgroup>
-							<col width="10%" class="tnone" />
+							<col width="100px" />
 							<col width="*" />
-							<col width="14%" class="tw25" />
-							<col width="14%" class="tw25" />
-							<col width="14%" class="tnone" />
 							</colgroup>
-							<thead>
-								<th scope="col" class="tnone">NO.</th>
-								<th scope="col">제목</th>
-								<th scope="col">작성자</th>
-								<th scope="col">등록일</th>
-								<th scope="col" class="tnone">조회수</th>
-							</thead>
 							<tbody>
-								<c:forEach var="board" items="${list}">
 								<tr>
-									<td class="tnone">${board.bno }</td>
-									<td class="left">
-										<a href="/customer/view?bno=${board.bno }">${board.bcontent }</a>
-										<img src="/images/ico/ico_new.gif" alt="NEW" />
-									</td>
-									<td>${board.member.name }</td>
-									<td>
-										<fmt:formatDate value="${board.bdate }" pattern="yyyy-MM-dd"></fmt:formatDate>
-									</td>
-									<td class="tnone right">${board.bhit }</td>
+									<th class="pre">PREV</th>
+									<td><a href="#">상품 재입고는 언제 되나요?</a></td>
 								</tr>
-								</c:forEach>
-								
+
+								<tr>
+									<th class="next">NEXT</th>
+									<td>다음 글이 없습니다.</td>
+								</tr>
 							</tbody>
 						</table>
 					</div>
-						
+					<!-- //이전다음글 -->
 
 
-					<div class="btnAreaList">
-						<!-- 페이징이동1 -->
-						<div class="allPageMoving1">
-
-						<a href="#" class="n"><img src="/images/btn/btn_pre2.gif" alt="처음으로"/></a><a href="#" class="pre"><img src="/images/btn/btn_pre1.gif" alt="앞페이지로"/></a>
-						<strong>1</strong>
-						<a href="#">2</a>
-						<a href="#">3</a>
-						<a href="#">4</a>
-						<a href="#">5</a>
-						<a href="#" class="next"><img src="/images/btn/btn_next1.gif" alt="뒤페이지로"/></a><a href="#" class="n"><img src="/images/btn/btn_next2.gif" alt="마지막페이지로"/></a>
-
-						</div>
-						<!-- //페이징이동1 -->
-					</div>
-					<li><a href="/customer/write" class="nbtnbig mw">글쓰기</a></li>
-
-					<div class="searchWrap">
-						<div class="search">
+					<!-- Btn Area -->
+					<div class="btnArea btline">
+						<div class="bRight">
 							<ul>
-								<li class="web"><img src="/images/txt/txt_search.gif" alt="search" /></li>
-								<li class="se">
-									<select>
-										<option value="" />제목</option>
-									</select>
-								</li>
-								<li><input type="text" class="searchInput" /></li>
-								<li class="web"><a href="#"><img src="/images/btn/btn_search.gif" alt="검색" /></a></li>
-								<li class="mobile"><a href="#"><img src="/images/btn/btn_search_m.gif" alt="검색" /></a></li>
+								<c:if test="${session_id != null}">\
+									<li><a href="/customer/list" class="sbtnMini mw">답변달기</a></li>
+									<c:if test="${session_id == board.member.id}">
+										<li><a href="/customer/list" class="sbtnMini mw">수정</a></li>
+										<li><a onclick="deleteBtn()" class="sbtnMini mw">삭제</a></li>
+									</c:if>
+								</c:if>
+								<li><a href="/customer/list" class="sbtnMini mw">목록</a></li>
 							</ul>
 						</div>
 					</div>
-					<!-- //포토 구매후기 -->
-
-
+					<!-- //Btn Area -->
+					
 				</div>
 			</div>
 			<!-- //contents -->
+
 
 		</div>
 	</div>

@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicInsert;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -14,6 +15,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.SequenceGenerator;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,9 +26,18 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor // 전체생성자
 @Builder // 부분생성자
 @Data // getter, setter
+@DynamicInsert //null 값인 데이터 필드를 제외하고 insert
+@SequenceGenerator(
+		name="board_seq_generator",
+		sequenceName="board_seq",
+		initialValue = 101,
+		allocationSize = 1
+		)
 public class Board {
 	@Id // 기본키 - oracle : sequence 사용
-	@GeneratedValue(strategy = GenerationType.IDENTITY) // DB제공되는 넘버링전략 시퀀스 파일을 자동으로 만들어 줌
+	
+	@GeneratedValue(strategy = GenerationType.SEQUENCE,
+	generator = "board_seq_generator") // DB제공되는 넘버링전략 시퀀스 파일을 자동으로 만들어 줌
 	private int bno;
 	@Column(nullable = false, length=100)
 	private String btitle;

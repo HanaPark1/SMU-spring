@@ -11,4 +11,10 @@ public interface CustomerService {
 
 	List<Board> findAll();
 
+	Board findByBno(int bno);
+
+	void deleteById(int bno);
+
+	void save(Board b);
+
 }
