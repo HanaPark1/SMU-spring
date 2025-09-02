@@ -34,7 +34,10 @@ public class CustomerController {
 	public String view(Board b, Model model) {
 		System.out.println(b.getBno());
 		Board board = customerService.findByBno(b.getBno());
+		
+		System.out.println("하단댓글 개수: "+board.getReply().size());
 		model.addAttribute("board",board);
+		model.addAttribute("replyCount",board.getReply().size());
 		return "customer/view";
 	}
 	

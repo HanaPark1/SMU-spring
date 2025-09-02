@@ -226,23 +226,16 @@ $(document).ready(function() {
 						<div class="viewHead">
 							<div class="subject">
 								<ul>
-									<li>쟈뎅 전문 쇼핑몰 쟈뎅샵이 리뉴얼 오픈합니다.</li>
+									<li>${board.btitle}</li>
 								</ul>
 							</div>
 							<div class="day">
-								<p class="txt">작성일<span>14.01.28</span></p>
+								<p class="txt">작성일<span>${board.bdate }</span></p>
 							</div>
 						</div>
 
 						<div class="viewContents">
-							안녕하세요. 쟈뎅샵입니다.<br/>
-							늘 저희 쟈뎅을 사랑해주시는 많은 고객님들께 감사 인사드립니다.<br/>
-							변함없는 고객님들의 사랑에 보답하고자, 쟈뎅이 온라인 쇼핑몰을 새롭게 리뉴얼 오픈하게 되었습니다.<br/>
-							기존에 tea24로 이용하시던 쟈뎅 제품 전문 쇼핑몰이 쟈뎅샵(jardinshop)이라는 새로운 공간으로<br/>
-							오픈하게 되었습니다.<br/>
-							더욱 새로운 모습과 늘 발전하는 모습으로 찾아뵙도록 하겠습니다.<br/><br/>
-
-							감사합니다.
+							${board.bcontent}
 						</div>
 					</div>
 
@@ -269,6 +262,105 @@ $(document).ready(function() {
 						</table>
 					</div>
 					<!-- //이전다음글 -->
+					<script>
+						let rpw;
+						let rcontent; 
+					
+						function replyBtn() {
+							alert("하단댓글을 저장합니다.");
+							// 댓글 개수 증가
+							var replyCount = $(".replyCount").text();
+							var replyCount = Number(replyCount)+1;
+							$(".replyCount").text(replyCount);
+							
+							rpw = $(".replynum").val();
+							rcontent = $(".replyType").val();
+							
+							console.log("rpw: " + rpw);
+							console.log("rcontent: " + rcontent);
+							
+							
+							// ajax 전송
+							$.ajax({
+								url:"/reply/write",
+								type: "POST", 
+								data:{"id": "${session_id}", "bno":${board.bno}, "rpw":rpw, "rcontent":rcontent},
+								dataType:"json", // json이 주류
+								success: function(data) {
+									alert("성공");
+									
+									var dhtml = ``;
+									
+									dhtml += `
+									<ul id="${reply.rno}">
+										<li class="name">${data.member.id } <span>[${data.rdate }]</span></li>
+										<li class="txt">${data.rcontent }</li>
+										<li class="btn">
+											<a onclick class="rebtn">수정</a>
+											<a href="#" class="rebtn">삭제</a>
+										</li>
+									</ul>
+									`;
+									
+									$(".replyBox").prepend(dhtml); // html 태그 추가
+									
+								}, 
+								error: function() {
+									alert("실패");
+								}
+							})
+							
+							// 완료후
+							$(".replynum").val("");
+							$(".replyType").val("");
+						}
+					</script>
+					
+					<!-- 댓글-->
+					<div class="replyWrite">
+						<ul>
+							<li class="in">
+								<p class="txt">총 <span class="orange" >${replyCount}</span> 개의 댓글이 달려있습니다.</p>
+								<p class="password">비밀번호&nbsp;&nbsp;<input type="password" class="replynum" /></p>
+								<textarea class="replyType"></textarea>
+							</li>
+							<li class="btn"><a onclick="replyBtn()" class="replyBtn">등록</a></li>
+						</ul>
+						<p class="ntic">※ 비밀번호를 입력하시면 댓글이 비밀글로 등록 됩니다.</p>
+					</div>
+					
+
+					<div class="replyBox">
+					<!-- 비밀글, 하단댓글 수정 -->
+						<c:forEach var="reply" items="${board.reply}">
+						<ul id="${reply.rno}">
+							<li class="name">${reply.member.id } <span>${reply.rdate }</span></li>
+							<li class="txt">${reply.rcontent }</li>
+							<li class="btn">
+								<c:if test="${reply.member.id == session_id}">
+									<a onclick class="rebtn">수정</a>
+									<a href="#" class="rebtn">삭제</a>
+								</c:if>
+							</li>
+						</ul>
+						</c:forEach>
+						<!-- <ul>
+							<li class="name">jjabcde <span>[2014-03-04&nbsp;&nbsp;15:01:59]</span></li>
+							<li class="txt">
+								<a href="password.html" class="passwordBtn"><span class="orange">※ 비밀글입니다.</span></a>
+							</li>
+						</ul>
+						<ul>
+							<li class="name">jjabcde <span>[2014-03-04&nbsp;&nbsp;15:01:59]</span></li>
+							<li class="txt">대박!!! 이거 저한테 완전 필요한 이벤트였어요!!</li>
+							<li class="btn">
+								<a href="#" class="rebtn">수정</a>
+								<a href="#" class="rebtn">삭제</a>
+							</li>
+						</ul> -->
+					</div>
+					<!-- //댓글 -->
+					
 
 
 					<!-- Btn Area -->
