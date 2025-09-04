@@ -2,8 +2,10 @@ package com.site.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -53,6 +55,29 @@ public class ReplyController {
 		// DB 저장 후 가져오기
 		Reply reply = replyService.save(r);
 		return reply; // 객체 리턴, 자동으로 Json 파싱: 무한루프 발생
+	}
+	
+	@DeleteMapping("/reply/delete")
+	public String delete(Reply r) {
+		System.out.println("r : "+r.getRno());
+		// DB삭제
+		replyService.deleteById(r.getRno());
+		
+		return "success";
+	}
+	
+	@PutMapping("/reply/confirm")
+	public String confirm(Reply r) {
+		Reply reply = replyService.findById(r.getRno());
+		System.out.println("rno : "+r.getRno());
+		System.out.println("rcontent : "+r.getRcontent());
+	
+		reply.setRcontent(r.getRcontent());
+		
+		// DB 수정
+		reply = replyService.save(reply);
+		
+		return "success";
 	}
 
 }

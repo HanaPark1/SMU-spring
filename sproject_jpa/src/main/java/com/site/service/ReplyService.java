@@ -10,4 +10,8 @@ public interface ReplyService {
 	// 하단 댓글 저장
 	Reply save(Reply r);
 
+	void deleteById(int rno);
+
+	Reply findById(int rno);
+
 }

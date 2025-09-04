@@ -17,4 +17,16 @@ public class ReplyServiceImpl implements ReplyService {
 		return reply;
 	}
 
+	@Override
+	public void deleteById(int rno) {
+		replyRepository.deleteById(rno);
+		
+	}
+
+	@Override
+	public Reply findById(int rno) {
+		Reply reply = replyRepository.findById(rno).get();
+		return reply;
+	}
+
 }
