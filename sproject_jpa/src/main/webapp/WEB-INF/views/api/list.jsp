@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="../layout/header.jsp" %>
+<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 
 	<!-- container -->
 	<div id="container">
@@ -42,28 +43,13 @@
 							</colgroup>
 							<thead>
 								<th scope="col" class="tnone">NO.</th>
-								<th scope="col">전체</th>
 								<th scope="col">제목</th>
 								<th scope="col">작성자</th>
 								<th scope="col">등록일</th>
 								<th scope="col" class="tnone">조회수</th>
 							</thead>
-							<tbody>
-								<c:forEach var="board" items="${list}">
-								<tr>
-									<td class="tnone">${board.bno }</td>
-									<td class="left">
-										<a href="/customer/view?bno=${board.bno }">${board.bcontent }</a>
-										<img src="/images/ico/ico_new.gif" alt="NEW" />
-									</td>
-									<td>${board.member.name }</td>
-									<td>
-										<fmt:formatDate value="${board.bdate }" pattern="yyyy-MM-dd"></fmt:formatDate>
-									</td>
-									<td class="tnone right">${board.bhit }</td>
-								</tr>
-								</c:forEach>
-								
+							<tbody id="tbody">
+								<!-- api 리스트 -->
 							</tbody>
 						</table>
 					</div>
@@ -120,9 +106,45 @@
 
 		</div>
 	</div>
+	
+	<!-- api 가져오기 -->
+	<script>
+		$.ajax({
+			url:"/api/api",
+			method:"get",
+			data: {"page":"1",},
+			dataType:"json",
+			succsess:function(data) {
+				alert("공공데이터 api를 가져옵니다.");
+				console.log(data);
+				console.log(data.response.body.items);
+				console.log(data.response.body.items.item[0]);
+				
+				var dhtml = ``;
+				var apiList = data.response.body.items;
+				for (var i=0; i<apiList.length; i++) {
+					dhtml += `
+						<tr>
+							<td class="tnone">${board.bno }</td>
+							<td class="left">
+								<a href="/customer/view?bno=${board.bno }">${board.bcontent }</a>
+								<img src="/images/ico/ico_new.gif" alt="NEW" />
+							</td>
+							<td>${board.member.name }</td>
+							<td>
+								<fmt:formatDate value="${board.bdate }" pattern="yyyy-MM-dd"></fmt:formatDate>
+							</td>
+							<td class="tnone right">${board.bhit }</td>
+						</tr>
+					`;
+				} // for
+				
+				$("tbody").html(dhtml);
+			}, 
+			error: function() {
+				alert("실패");
+			}
+		});
+	</script>
 	<!-- //container -->
 	<%@ include file="../layout/footer.jsp" %>
-</div>
-</div>
-</body>
-</html>

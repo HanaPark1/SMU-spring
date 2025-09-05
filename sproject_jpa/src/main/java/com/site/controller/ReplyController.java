@@ -1,5 +1,8 @@
 package com.site.controller;
 
+import java.sql.Timestamp;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,65 +22,66 @@ import com.site.service.ReplyService;
 import jakarta.servlet.http.HttpSession;
 
 //@Controller
+//@Controller
 @RestController
 public class ReplyController {
+
+	// ajax사용하면 - RestApi
+//	@GetMapping    // select
+//	@PostMapping   // insert
+//	@PutMapping    // update
+//	@DeleteMapping // delete
+	
 	@Autowired MemberService memberService;
 	@Autowired CustomerService customerService;
-	@Autowired HttpSession session;
 	@Autowired ReplyService replyService;
+	@Autowired HttpSession session;
 	
-// Rest api (Ajax 사용하면 RestApi)
-//	@GetMapping // select
-//	@PostMapping // insert
-//	@PutMapping // update
-//	@DeleteMapping // delete
+	@PutMapping("/reply/confirm") //댓글수정확인
+	public Reply confirm(Reply r) {
+		Reply reply = replyService.findById(r.getRno());
+		System.out.println("rno : "+r.getRno());
+		System.out.println("rcontent : "+r.getRcontent());
+		reply.setRcontent(r.getRcontent());
+		// DB수정
+		reply = replyService.save(reply);
+		return reply;
+	}
+	
+	@DeleteMapping("/reply/delete") //댓글삭제
+	public String delete(Reply r) {
+		System.out.println("r : "+r.getRno());
+		// DB삭제
+		replyService.deleteById(r.getRno());
+		return "success";
+	}
 	
 	@GetMapping("/reply/list")
 	public String list() {
-		return "성공: list를 전달할 예정";
+		return "성공 : list를 전달";
 	}
 	
 	@PostMapping("/reply/write")
 	public Reply write(Reply r, 
 			@RequestParam("id") String id,
-			@RequestParam("bno") int bno
-			) {
-		System.out.println("rpw:" + r.getRpw());
-		System.out.println("rcontent:" + r.getRcontent());
-		System.out.println("id:" + id);
-		System.out.println("bno:" + bno);
-		Member member = memberService.findById(id);
-		System.out.println("member:" + member);
-		r.setMember(member);
-		Board board = customerService.findByBno(bno);
-		r.setBoard(board);
-		
-		// DB 저장 후 가져오기
-		Reply reply = replyService.save(r);
-		return reply; // 객체 리턴, 자동으로 Json 파싱: 무한루프 발생
-	}
-	
-	@DeleteMapping("/reply/delete")
-	public String delete(Reply r) {
-		System.out.println("r : "+r.getRno());
-		// DB삭제
-		replyService.deleteById(r.getRno());
-		
-		return "success";
-	}
-	
-	@PutMapping("/reply/confirm")
-	public String confirm(Reply r) {
-		Reply reply = replyService.findById(r.getRno());
-		System.out.println("rno : "+r.getRno());
+			@RequestParam("bno") int bno ) {
+		// 데이터 확인
+		System.out.println("rpw : "+r.getRpw());
 		System.out.println("rcontent : "+r.getRcontent());
-	
-		reply.setRcontent(r.getRcontent());
+		System.out.println("id2 : "+id);
+		System.out.println("bno : "+bno);
+		// 데이터 추가
+		Member member = memberService.findById(id);
+		r.setMember(member);
+		Map<String, Object> map = customerService.findByBno(bno);
+		Board board = (Board)(map.get("board"));
+		r.setBoard(board);
+		// DB저장후 가져오기
+		Reply reply = replyService.save(r);
+		System.out.println("reply : "+reply.getRno());
 		
-		// DB 수정
-		reply = replyService.save(reply);
-		
-		return "success";
+		return reply; // reply 객체리턴 - 자동으로 Json파싱:무한루프발생
 	}
-
+	
+	
 }

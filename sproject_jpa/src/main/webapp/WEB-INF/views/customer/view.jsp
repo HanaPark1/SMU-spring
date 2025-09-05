@@ -88,30 +88,42 @@
 							<tbody>
 								<tr>
 									<th class="pre">PREV</th>
-									<td><a href="#">상품 재입고는 언제 되나요?</a></td>
+									<c:if test="${preBoard != null }">
+										<td><a href="/customer/view?bno=${preBoard.bno}">${preBoard.btitle}</a></td>
+									</c:if>
+									<c:if test="${preBoard == null }">
+										<td>이전글이 없습니다.</td>
+									</c:if>
 								</tr>
 
 								<tr>
 									<th class="next">NEXT</th>
-									<td>다음 글이 없습니다.</td>
+									<c:if test="${nextBoard != null }">
+										<td><a href="/customer/view?bno=${nextBoard.bno}">${nextBoard.btitle}</a></td>
+									</c:if>
+									<c:if test="${nextBoard == null }">
+										<td>다음글이 없습니다.</td>
+									</c:if>
 								</tr>
 							</tbody>
 						</table>
 					</div>
 					<!-- //이전다음글 -->
 		<script>
-			
+						
 			//jquery선언			
 			$(function(){
 				// 전역변수 선언
 				let id = '';
-				let rcontent = '';
-				let rdate = '';
 				let rpw = '';
+				let rcontent = '';
+				
+				let rdate = '';
 				let updateFlag = 0;
 				let rno = 1;
 				
-				$(document).on("click",".replyBtn", function() {
+				// 하단댓글 추가
+				$(document).on("click",".replyBtn",function(){
 					alert("하단댓글을 저장합니다.");
 					console.log("rpw : "+$(".replynum").val());
 					console.log("rcontent : "+$(".replyType").val());
@@ -165,7 +177,14 @@
 					//완료후
 					$(".replynum").val("");
 					$(".replyType").val("");
-				})
+					
+					
+				});//replyBtn
+				
+				
+				
+				
+				
 				
 				// 정적,동적html 형태 모두 실행됨.
 				// 모두 삭제 가능
@@ -259,18 +278,17 @@
 				$(document).on("click",".confirmBtn",function(){
 					// rno,id-전역변수, rcontent 가져오면 됨.
 					alert("하단댓글을 수정합니다.");
+					updateFlag = 0;
 					rcontent = $(this).closest("ul").children(".txt").children(".replyType").val();
 					console.log("rcontent : ",rcontent);
-					
+					//ajax
 					$.ajax({
+					
 						url:"/reply/confirm",
 						method:"put",
-						data: {"id":id, "rno":rno, "rcontent":rcontent},
-						dataType:"json".
-						success:function(data) {
-							alert("성공");
-							console.log(data);
-							let dhtml = ``;
+						data:{"rno":rno,"rcontent":rcontent},
+						dataType:"json",
+						success:function(data){
 							
 							//변수
 							rno = data.rno;
@@ -287,16 +305,13 @@
 								</li>
 							`;
 							
-							$("#"+rno).html(dhtml); //html태그추가
-						}, error:function() {
+							$("#"+rno).html(dhtml);
+						},
+						error:function(){
 							alert("실패");
 						}
-					});
-					
-					let dhtml = ``;
-					
-					$("#"+rno).html(dhtml);
-				});			
+					});//ajax
+				});//confirmBtn			
 			
 			
 			
@@ -311,7 +326,7 @@
 								<p class="password">비밀번호&nbsp;&nbsp;<input type="password" name="rpw" class="replynum" /></p>
 								<textarea name="rcontent" class="replyType"></textarea>
 							</li>
-							<li class="btn"><a onclick="replyBtn()" class="replyBtn">등록</a></li>
+							<li class="btn"><a class="replyBtn">등록</a></li>
 						</ul>
 						<p class="ntic">※ 비밀번호를 입력하시면 댓글이 비밀글로 등록 됩니다.</p>
 					</div>
